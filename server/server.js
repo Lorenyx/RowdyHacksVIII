@@ -16,7 +16,7 @@ app.use(cors());
 // --[ CONSTANTS ]-- //
 ///////////////////////
 const accountSid = 'AC453c252b4cc6d9c8614f615781589b81' // process.env.TWILIO_ACCOUNT_SID
-const authToken = 'f0116e05b46ec8d0e05487a24d37634e' // process.env.TWILIO_AUTH_TOKEN;
+const authToken = '5c74fc7bd28755dbe8a9666140448ffe' // process.env.TWILIO_AUTH_TOKEN;
 const twilioNumber = '+14406643755';
 const client = twilio(accountSid, authToken);
 
@@ -35,7 +35,7 @@ app.get('/send-message', async (req, resp) => {
     console.log('Received request: ' + req.url);
 
     const { walletTo, walletFrom, amount } = req.query;
-    const phoneNumber = '+18305637519'; //getPhoneNumber(walletFrom);
+    const phoneNumber = USERS.get(walletFrom); // '+18305637519'; //getPhoneNumber(walletFrom);
 
     console.log("payload: "+walletTo, walletFrom, amount);
         // Send the initial text message
