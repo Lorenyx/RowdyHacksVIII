@@ -15,11 +15,13 @@ app.use(cors());
 ///////////////////////
 // --[ CONSTANTS ]-- //
 ///////////////////////
-const accountSid = 'ACad12f26ada12dc0623cbe1c153537008' // process.env.TWILIO_ACCOUNT_SID
-const authToken = '39309d46f4e900dddce6759b427f9f72' // process.env.TWILIO_AUTH_TOKEN;
+const accountSid = 'AC453c252b4cc6d9c8614f615781589b81' // process.env.TWILIO_ACCOUNT_SID
+const authToken = 'f0116e05b46ec8d0e05487a24d37634e' // process.env.TWILIO_AUTH_TOKEN;
+const twilioNumber = '+14406643755';
 const client = twilio(accountSid, authToken);
 
-const USERS = { '0.0.420420': '+18305637519' } // map of users
+const USERS = new Map()
+USERS.set('0.0.420420', '+18305637519'); // map of users
 
 const STATUS = {
     NOT_FOUND: 1,
@@ -39,14 +41,14 @@ app.get('/send-message', async (req, resp) => {
         // Send the initial text message
     const message = await client.messages.create({
         body: 'Hey there! We found a transaction:\nSend ' + amount + ' HBAR to "' + walletTo + '".\n\nType "Yes" to confirm or "No" to deny this request.',
-        from: '+18305218952',
+        from: twilioNumber,
         to: phoneNumber
     });
     // Poll for incoming text messages
     const messageCheckInterval = setInterval(async () => {
         const messages = await client.messages.list({
             from: phoneNumber, // Replace with the recipient's phone number
-            to: '+18305218952', // Replace with your Twilio phone number
+            to: twilioNumber, // Replace with your Twilio phone number
         }).catch(err => console.error(err));;
         // Look for a response with either "Yes" or "No"
         const response = messages.find(message => /yes|no/i.test(message.body.toString()));
@@ -65,6 +67,22 @@ app.get('/send-message', async (req, resp) => {
 
 })
 
+app.get('/verify-phone', (req, res) => {
+    const { accountId } = req.query;
+
+    console.log('Verify phone for '+accountId);
+    if (USERS.get(accountId) !== undefined) {
+        res.status(200).json({hasPhone: true});
+    } else {
+        res.status(200).json({hasPhone: false});
+    }
+});
+
+app.get('/add-phone', (req, res) => {
+    const { accountId, phoneNumber } = req.query;
+    USERS.set(accountId, phoneNumber);
+    res.status(200).end();
+})
 
 app.get('/test', (req, res) => {
     console.log('received get!');
