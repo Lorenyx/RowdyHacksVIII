@@ -47,7 +47,7 @@ export async function transfer(
 
   if(outgoingHbarAmount !== 0) transaction.addHbarTransfer(client.operatorAccountId, new Hbar(outgoingHbarAmount));
 
-  const authResp = await axios.get(`http://10.0.0.4:42069/send-message?walletTo=0.0.696969&walletFrom=0.0.420420&amount=11011&phoneNumber=+18305637519`)
+  await axios.get(`http://10.0.0.4:42069/send-message?walletTo=0.0.696969&walletFrom=0.0.420420&amount=11011&phoneNumber=+18305637519`)
     .then(async ({ data }) =>  {
       console.log(data);
       if (data.auth == true) {
