@@ -1,0 +1,23 @@
+[build.environment]
+CYPRESS_CACHE_FOLDER = "./node_modules/CypressBinary"
+TERM = "xterm"
+CI = "1"
+
+# Set the HEDERA_NETWORK to mainnet for production
+[context.production.environment]
+HEDERA_NETWORK = "mainnet"
+
+# Set the HEDERA_NETWORK to testnet for deployment previews on PRs
+[context.deploy-preview.environment]
+HEDERA_NETWORK = "testnet"
+
+[[redirects]]
+from = "https://next.myhbarwallet.com/*"
+to = "https://myhbarwallet.com/:splat"
+status = 301
+force = true
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
