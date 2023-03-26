@@ -296,7 +296,7 @@ export default defineComponent({
           // Concatenate account ID and phone number as a string and send it to your server
           console.log("Account ID:", state.accountId.toString());
 
-          const response = await axios.get(`http://10.0.0.4:42069/verify-phone?accountId=${state.accountId.toString()}&phoneNumber=state.phoneNumber`);
+          const response = await axios.get(`http://10.0.0.4:42069/add-phone?accountId=${state.accountId.toString()}&phoneNumber=${state.phoneNumber}`);
           console.log("API Response:", response.data.hasPhone);
 
           showPhoneNumberInput.value = response.data.hasPhone;
@@ -328,5 +328,3 @@ export default defineComponent({
   },
 });
 </script>
-message.txt
-13 KB

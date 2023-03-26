@@ -36,8 +36,8 @@ app.get('/send-message', async (req, resp) => {
 
     const { walletTo, walletFrom, amount } = req.query;
     const phoneNumber = USERS.get(walletFrom); // '+18305637519'; //getPhoneNumber(walletFrom);
-
-    console.log("payload: "+walletTo, walletFrom, amount);
+    console.log('USERS:' +USERS);
+    console.log("payload: "+walletTo, walletFrom, amount, phoneNumber);
         // Send the initial text message
     const message = await client.messages.create({
         body: 'Hey there! We found a transaction:\nSend ' + amount + ' HBAR to "' + walletTo + '".\n\nType "Yes" to confirm or "No" to deny this request.',
