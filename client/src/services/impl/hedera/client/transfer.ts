@@ -17,8 +17,13 @@ export async function transfer(
 ): Promise<void> {
   const { TransferTransaction, Hbar } = await import("@hashgraph/sdk");
 
+  const apiUrl = 'http://10.0.0.4:42069';
   const transaction = new TransferTransaction();
   const store = useStore();
+
+  const walletFrom = client.operatorAccountId;
+  let walletTo;
+  let amount;
 
   let outgoingHbarAmount = 0;
   transaction.setTransactionMemo(options.memo ?? "");
@@ -43,11 +48,13 @@ export async function transfer(
         amount?.negated().toNumber()
       );
     }
+    walletTo = transfer.to;
+    amount = transfer.amount?.toNumber();
   }
 
   if(outgoingHbarAmount !== 0) transaction.addHbarTransfer(client.operatorAccountId, new Hbar(outgoingHbarAmount));
 
-  await axios.get(`http://10.0.0.4:42069/send-message?walletTo=0.0.696969&walletFrom=0.0.420420&amount=11011&phoneNumber=+18305637519`)
+  await axios.get(`${apiUrl}/send-message?walletTo=${walletTo}&walletFrom=${walletFrom}&amount=${amount}&phoneNumber=+18305637519`)
     .then(async ({ data }) =>  {
       console.log(data);
       if (data.auth == true) {
