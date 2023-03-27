@@ -303,7 +303,7 @@ export default defineComponent({
 
           //console.log("Phone number:", state.phoneNumber);
 
-          // Print the phone number if it is not empty
+          // Print the phone number if it's not empty
           if (state.phoneNumber) {
             console.log(`Phone number: ${state.phoneNumber}`);
           }
